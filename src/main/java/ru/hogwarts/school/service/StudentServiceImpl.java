@@ -1,52 +1,50 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final Map<Long, Student> students = new HashMap<>();
-    private Long countId = 0L;
+    @Autowired
+    private final StudentRepository studentRepository;
+
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
     @Override
     public Student add(Student student) {
-        Long id = ++countId;
-        student.setId(countId);
-        students.put(countId, student);
-        return students.get(id);
+        return studentRepository.save(student);
     }
 
     @Override
     public Student get(Long id) {
-        return students.get(id);
+        return studentRepository.findById(id).orElse(null);
     }
 
     @Override
     public Student update(Long id, Student student) {
-        if (students.containsKey(id)) {
-            Student studentById = students.get(id);
-            studentById.setName(student.getName());
-            students.put(id, studentById);
-            return students.get(id);
-        } else {
+        Student studentUpdate = studentRepository.findById(id).orElse(null);
+        if (studentUpdate != null) {
+            studentUpdate.setName(student.getName());
+            studentUpdate.setAge(student.getAge());
+            return studentRepository.save(studentUpdate);
+        }else {
             return null;
         }
     }
 
     @Override
     public void delete(Long id) {
-        students.remove(id);
+        studentRepository.deleteById(id);
 
     }
 
     @Override
     public List<Student> getByAge(int age) {
-        return students.values()
-                .stream()
-                .filter(it -> it.getAge() == age)
-                .collect(Collectors.toList());
+        return studentRepository.findByAge(age);
     }
 }
