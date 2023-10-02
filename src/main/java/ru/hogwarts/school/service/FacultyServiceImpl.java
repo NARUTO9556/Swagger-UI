@@ -3,16 +3,22 @@ package ru.hogwarts.school.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.entity.Faculty;
+import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Service
 public class FacultyServiceImpl implements FacultyService {
     @Autowired
     private final FacultyRepository facultyRepository;
+    private final StudentService studentService;
 
-    public FacultyServiceImpl(FacultyRepository facultyRepository) {
+    public FacultyServiceImpl(FacultyRepository facultyRepository, StudentService studentService) {
         this.facultyRepository = facultyRepository;
+        this.studentService = studentService;
     }
 
     @Override
@@ -46,5 +52,16 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public List<Faculty> getByColor(String color) {
         return facultyRepository.findByColor(color);
+    }
+    @Override
+    public Set<Faculty> getByColorOrName(String param) {
+        Set<Faculty> result = new HashSet<>();
+        result.addAll(facultyRepository.findByColorIgnoreCase(param));
+        result.addAll(facultyRepository.findByNameIgnoreCase(param));
+        return result;
+    }
+    @Override
+    public List<Student> getStudentsByFaculty(Long id) {
+        return studentService.getByFaculty(id);
     }
 }

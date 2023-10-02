@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.service.StudentService;
 
@@ -28,6 +29,7 @@ public class StudentController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @PostMapping
     public ResponseEntity<Student> add(@RequestBody Student student) {
         Student addStudent = studentService.add(student);
@@ -39,7 +41,7 @@ public class StudentController {
         Student updated = studentService.update(id, student);
         if (updated != null) {
             return ResponseEntity.ok(updated);
-        }else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
@@ -53,5 +55,15 @@ public class StudentController {
     @GetMapping
     public List<Student> getByAge(@RequestParam("age") int age) {
         return studentService.getByAge(age);
+    }
+
+    @GetMapping("/by-age-between")
+    public List<Student> getByAgeBetween(@RequestParam int min, @RequestParam int max) {
+        return studentService.getByAgeBetween(min, max);
+    }
+
+    @GetMapping("/faculty-by-student-id")
+    public Faculty getFacultyByStudentId(@RequestParam Long id) {
+        return studentService.getFacultyByStudentId(id);
     }
 }

@@ -4,9 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.entity.Faculty;
+import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping("/faculties")
 public class FacultyController {
@@ -50,5 +53,15 @@ public class FacultyController {
     @GetMapping
     public List<Faculty> getByAge(@RequestParam("color") String color) {
         return facultyService.getByColor(color);
+    }
+
+    @GetMapping("/by-name-or-color")
+    public Set<Faculty> getByColorOrName(@RequestParam String param) {
+        return facultyService.getByColorOrName(param);
+    }
+
+    @GetMapping("/students-by-faculty-id")
+    public List<Student> getStudentsByFacultyId(@RequestParam Long id) {
+        return facultyService.getStudentsByFaculty(id);
     }
 }

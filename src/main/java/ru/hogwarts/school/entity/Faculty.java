@@ -1,9 +1,7 @@
 package ru.hogwarts.school.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 @Entity
 public class Faculty {
@@ -12,6 +10,8 @@ public class Faculty {
     private Long id;
     private String name;
     private String color;
+    @OneToMany
+    private List<Student> studentLists;
 
     public Faculty() {
     }
