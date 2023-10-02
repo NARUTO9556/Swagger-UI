@@ -1,6 +1,6 @@
 package ru.hogwarts.school.service;
 
-import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.entity.Student;
 
 import java.util.List;
 
