@@ -11,6 +11,8 @@ public class Student {
     private int age;
     @ManyToOne
     private Faculty faculty;
+    @OneToOne
+    private Avatar avatar;
 
     public Student() {
 
@@ -46,6 +48,13 @@ public class Student {
 
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
+    }
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
 
