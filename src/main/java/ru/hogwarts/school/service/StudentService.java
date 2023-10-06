@@ -1,8 +1,11 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.web.multipart.MultipartFile;
+import ru.hogwarts.school.entity.Avatar;
 import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.entity.Student;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface StudentService {
@@ -14,4 +17,8 @@ public interface StudentService {
     List<Student> getByAgeBetween(int min, int max);
     Faculty getFacultyByStudentId(Long id);
     List<Student> getByFaculty(Long id);
+
+    void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException;
+
+    Avatar findAvatar(Long studentId);
 }
