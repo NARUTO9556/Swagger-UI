@@ -17,8 +17,4 @@ public interface StudentService {
     List<Student> getByAgeBetween(int min, int max);
     Faculty getFacultyByStudentId(Long id);
     List<Student> getByFaculty(Long id);
-
-    void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException;
-
-    Avatar findAvatar(Long studentId);
 }
