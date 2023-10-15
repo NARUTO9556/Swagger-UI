@@ -1,11 +1,8 @@
 package ru.hogwarts.school.service;
 
-import org.springframework.web.multipart.MultipartFile;
-import ru.hogwarts.school.entity.Avatar;
 import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.entity.Student;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface StudentService {
