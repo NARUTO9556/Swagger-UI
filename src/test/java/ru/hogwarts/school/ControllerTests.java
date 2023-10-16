@@ -37,13 +37,8 @@ class ControllerTests {
 
     @Test
     void get() throws Exception{
-        Student studentForCreate = new Student(1L,"Иван", 22);
-
-        Student postedStudent = this.restTemplate.postForObject("http://localhost:" + port + "/student", studentForCreate, Student.class);
-        Student actualStudent= this.restTemplate.getForObject("http://localhost:" + port + "/student" + "?id=" + postedStudent.getId(), Student.class);
-        assertNotNull(actualStudent, "Expected a non-null Student, but got null");
-        assertEquals(postedStudent.getName(), actualStudent.getName());
-        assertEquals(postedStudent.getAge(), actualStudent.getAge());
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/students/1", String.class),
+                "{\"id\":1,\"name\":\"Иван\",\"age\":22,\"faculty\":null,\"avatar\":null}");
     }
 
     @Test
@@ -73,18 +68,19 @@ class ControllerTests {
 
     @Test
     void getByAge() throws Exception{
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/student?age=2", String.class),
-                "[{\"id\":2,\"name\":\"BBB\",\"age\":2,\"faculty\":{\"id\":1,\"name\":\"1A\",\"color\":\"111\",\"studentList\":[]}}]");
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/students?age=12", String.class),
+                "[{\"id\":13,\"name\":\"Боря\",\"age\":12,\"faculty\":null,\"avatar\":null}]");
     }
 
     @Test
-    void getByAgeBetween () throws Exception{Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/student/age-between?min=11&max=12", String.class),
-            "[{\"id\":2,\"name\":\"BBB\",\"age\":12,\"faculty\":{\"id\":1,\"name\":\"1A\",\"color\":\"111\",\"studentList\":[]}}]");
+    void getByAgeBetween () throws Exception{
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/students/by-age-between?min=11&max=12", String.class),
+            "[{\"id\":13,\"name\":\"Боря\",\"age\":12,\"faculty\":null,\"avatar\":null}]");
     }
 
     @Test
     void getFacultyByStudentId() throws Exception{
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/student/faculty-by-student-id?id=1", String.class),
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/students/faculty-by-student-id?id=1", String.class),
             "{\"id\":1,\"name\":\"1A\",\"color\":\"111\",\"studentList\":[]}");
 
     }
@@ -94,17 +90,17 @@ class ControllerTests {
     }
     @Test
     public void testGetFacultyInfo() throws Exception {
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/faculty/1", String.class),
-                "{\"id\":1,\"name\":\"1A\",\"color\":\"111\"}");
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/faculties/1", String.class),
+                "{\"id\":1,\"name\":\"Гриффиндор\",\"color\":\"Красный\"}");
     }
     @Test
     public void testGetFacultyInfoColorOrName() throws Exception {
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/faculty/get-color-or-name?str=222", String.class),
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/faculties/get-color-or-name?str=222", String.class),
                 "[{\"id\":2,\"name\":\"2B\",\"color\":\"222\",\"studentList\":[]}]");
     }
     @Test
     public void testGetStudentInfoByFacultyId() throws Exception {
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/faculty/students-by-faculty-id?id=1", String.class),
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/faculties/students-by-faculty-id?id=1", String.class),
                 "[{\"id\":2,\"name\":\"BBB\",\"age\":12,\"faculty\":{\"id\":1,\"name\":\"1A\",\"color\":\"111\",\"studentList\":[]}},{\"id\":1,\"name\":\"string\",\"age\":5,\"faculty\":{\"id\":1,\"name\":\"1A\",\"color\":\"111\",\"studentList\":[]}}]");
     }
     @Test
@@ -112,18 +108,18 @@ class ControllerTests {
         Faculty facultyTest = new Faculty();
         facultyTest.setName("Орки");
         facultyTest.setColor("Черный");
-        Assertions.assertNotNull(this.restTemplate.postForObject("http://localhost:" + port + "/faculty", facultyTest, String.class));
+        Assertions.assertNotNull(this.restTemplate.postForObject("http://localhost:" + port + "/faculties", facultyTest, String.class));
     }
     @Test
     public void testDeleteFaculty() throws Exception{
-        ResponseEntity<Void> resp = restTemplate.exchange("http://localhost:" + port + "/faculty/123", HttpMethod.DELETE, HttpEntity.EMPTY,Void.class);
+        ResponseEntity<Void> resp = restTemplate.exchange("http://localhost:" + port + "/faculties/123", HttpMethod.DELETE, HttpEntity.EMPTY,Void.class);
         Assertions.assertEquals(HttpStatus.NOT_FOUND,resp.getStatusCode());
     }
     @Test
     public void testPutFaculty() throws Exception{
-        Faculty facultyTest = new Faculty("Хоббиты","Белый");
+        Faculty facultyTest = new Faculty(1L, "Хоббиты","Белый");
         restTemplate.put("http://localhost:" + port + "/faculty/4", facultyTest);
 
-        Assertions.assertNotNull(this.restTemplate.postForObject("http://localhost:" + port + "/faculty", facultyTest, String.class));
+        Assertions.assertNotNull(this.restTemplate.postForObject("http://localhost:" + port + "/faculties", facultyTest, String.class));
     }
 }

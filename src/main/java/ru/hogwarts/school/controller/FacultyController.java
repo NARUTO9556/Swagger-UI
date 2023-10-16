@@ -31,7 +31,7 @@ public class FacultyController {
     @PostMapping
     public ResponseEntity<Faculty> add(@RequestBody Faculty faculty) {
         Faculty addFaculty = facultyService.add(faculty);
-        return ResponseEntity.status(HttpStatus.CREATED).body(addFaculty);
+        return ResponseEntity.status(HttpStatus.OK).body(addFaculty);
     }
 
     @PutMapping("{id}")
@@ -47,7 +47,7 @@ public class FacultyController {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         facultyService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping

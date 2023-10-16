@@ -33,7 +33,7 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<Student> add(@RequestBody Student student) {
         Student addStudent = studentService.add(student);
-        return ResponseEntity.status(HttpStatus.CREATED).body(addStudent);
+        return ResponseEntity.status(HttpStatus.OK).body(addStudent);
     }
 
     @PutMapping("{id}")
@@ -49,7 +49,7 @@ public class StudentController {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         studentService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping

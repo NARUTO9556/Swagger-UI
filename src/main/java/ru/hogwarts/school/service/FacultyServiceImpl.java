@@ -33,14 +33,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty update(Long id, Faculty faculty) {
-        Faculty facultyUpdate = facultyRepository.findById(id).orElse(null);
-        if (facultyUpdate != null) {
-            facultyUpdate.setName(faculty.getName());
-            facultyUpdate.setColor(faculty.getColor());
-            return facultyRepository.save(facultyUpdate);
-        } else {
-            return null;
-        }
+        return facultyRepository.save(faculty);
     }
 
     @Override
