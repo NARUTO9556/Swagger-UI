@@ -14,4 +14,7 @@ public interface StudentService {
     List<Student> getByAgeBetween(int min, int max);
     Faculty getFacultyByStudentId(Long id);
     List<Student> getByFaculty(Long id);
+    Integer getCount();
+    Double getAvgAges();
+    List<Student> getLastFive();
 }
