@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.entity.Avatar;
@@ -15,4 +16,5 @@ public interface AvatarService {
     ResponseEntity<byte[]> downloadAvatarByStudentFromDb(Long studentId);
 
     void downloadAvatarFromFileSystem(Long studentId, HttpServletResponse response) throws IOException;
+    Page<Avatar> getWithPageable(Integer page, Integer count);
 }

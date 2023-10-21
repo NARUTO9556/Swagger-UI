@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -98,5 +100,10 @@ public class AvatarServiceImpl implements AvatarService {
             response.setContentLength((int) avatar.getFileSize());
             is.transferTo(os);
         }
+    }
+
+    @Override
+    public Page<Avatar> getWithPageable(Integer page, Integer count) {
+        return avatarRepository.findAll(PageRequest.of(page, count));
     }
 }
