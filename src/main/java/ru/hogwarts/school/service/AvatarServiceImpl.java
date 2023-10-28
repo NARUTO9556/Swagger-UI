@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +29,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class AvatarServiceImpl implements AvatarService {
     private StudentRepository studentRepository;
     private AvatarRepository avatarRepository;
+    private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
@@ -38,6 +41,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("Был вызван метод uploadAvatar");
         Student student = studentRepository.getById(studentId);
         Path filePath = Path.of(avatarsDir,  studentId + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
@@ -60,13 +64,16 @@ public class AvatarServiceImpl implements AvatarService {
     }
     @Override
     public Avatar findAvatar(Long studentId) {
+        logger.info("Был вызван метод findAvatar");
         return avatarRepository.findByStudentId(studentId).orElseThrow();
     }
     private String getExtensions(String fileName) {
+        logger.info("Был вызван метод getExtensions");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
     @Override
     public ResponseEntity<byte[]> downloadAvatarByStudentFromDb(Long studentId) {
+        logger.info("Был вызван метод downloadAvatarByStudentFromDb");
 
         Optional<Avatar> avatarOpt = avatarRepository.findByStudentId(studentId);
 
@@ -83,6 +90,7 @@ public class AvatarServiceImpl implements AvatarService {
     }
     @Override
     public void downloadAvatarFromFileSystem(Long studentId, HttpServletResponse response) throws IOException {
+        logger.info("Был вызван метод downloadAvatarFromFileSystem");
 
         Optional<Avatar> avatarOpt = avatarRepository.findByStudentId(studentId);
 
@@ -104,6 +112,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public Page<Avatar> getWithPageable(Integer page, Integer count) {
+        logger.info("Был вызван метод getWithPageable");
         return avatarRepository.findAll(PageRequest.of(page, count));
     }
 }

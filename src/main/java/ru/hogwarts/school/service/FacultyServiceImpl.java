@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.entity.Faculty;
@@ -15,6 +17,7 @@ public class FacultyServiceImpl implements FacultyService {
     @Autowired
     private final FacultyRepository facultyRepository;
     private final StudentService studentService;
+    private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     public FacultyServiceImpl(FacultyRepository facultyRepository, StudentService studentService) {
         this.facultyRepository = facultyRepository;
@@ -23,31 +26,37 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty add(Faculty faculty) {
+        logger.info("Был вызван метод add");
         return facultyRepository.save(faculty);
     }
 
     @Override
     public Faculty get(Long id) {
+        logger.info("Был вызван метод get");
         return facultyRepository.findById(id).orElse(null);
     }
 
     @Override
     public Faculty update(Long id, Faculty faculty) {
+        logger.info("Был вызван метод update");
         return facultyRepository.save(faculty);
     }
 
     @Override
     public void delete(Long id) {
+        logger.info("Был вызван метод delete");
         facultyRepository.deleteById(id);
 
     }
 
     @Override
     public List<Faculty> getByColor(String color) {
+        logger.info("Был вызван метод getByColor");
         return facultyRepository.findByColor(color);
     }
     @Override
     public Set<Faculty> getByColorOrName(String param) {
+        logger.info("Был вызван метод getByColorOrName");
         Set<Faculty> result = new HashSet<>();
         result.addAll(facultyRepository.findByColorIgnoreCase(param));
         result.addAll(facultyRepository.findByNameIgnoreCase(param));
@@ -55,6 +64,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
     @Override
     public List<Student> getStudentsByFaculty(Long id) {
+        logger.info("Был вызван метод getStudentsByFaculty");
         return studentService.getByFaculty(id);
     }
 }
