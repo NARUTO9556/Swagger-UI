@@ -17,7 +17,7 @@ public class FacultyServiceImpl implements FacultyService {
     @Autowired
     private final FacultyRepository facultyRepository;
     private final StudentService studentService;
-    private final Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private final Logger logger = LoggerFactory.getLogger(FacultyService.class);
 
     public FacultyServiceImpl(FacultyRepository facultyRepository, StudentService studentService) {
         this.facultyRepository = facultyRepository;

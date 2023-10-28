@@ -29,7 +29,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class AvatarServiceImpl implements AvatarService {
     private StudentRepository studentRepository;
     private AvatarRepository avatarRepository;
-    private final Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private final Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
