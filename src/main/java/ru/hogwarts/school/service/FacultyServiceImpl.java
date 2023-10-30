@@ -8,6 +8,7 @@ import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -66,5 +67,14 @@ public class FacultyServiceImpl implements FacultyService {
     public List<Student> getStudentsByFaculty(Long id) {
         logger.info("Был вызван метод getStudentsByFaculty");
         return studentService.getByFaculty(id);
+    }
+
+    @Override
+    public String getLongestFacultyName() {
+        logger.info("Был вызван метод getLongestFacultyName");
+        return facultyRepository.findAll().stream().
+                map(Faculty::getName).
+                max(Comparator.comparingInt(String::length)).
+                orElseThrow();
     }
 }
