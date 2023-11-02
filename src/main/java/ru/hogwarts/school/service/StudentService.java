@@ -21,4 +21,6 @@ public interface StudentService {
     List<Student> getLastFive();
     List<String> getStudentIsStartedFromA();
     double getAvgAgeOfAllStudents();
+    void getListStudentsIsConsoleWithThreads();
+    void getListStudentsIsConsoleWithSynchronizedThreads();
 }

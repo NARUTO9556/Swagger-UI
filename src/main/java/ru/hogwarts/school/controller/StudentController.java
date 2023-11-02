@@ -88,4 +88,14 @@ public class StudentController {
     public ResponseEntity<Double> getAvgAgeOfAllStudents() {
         return ResponseEntity.ok(studentService.getAvgAgeOfAllStudents());
     }
+    @GetMapping("/list-is-console-threads")
+    public ResponseEntity<String> getListStudentsIsConsoleWithThreads() {
+        studentService.getListStudentsIsConsoleWithThreads();
+        return ResponseEntity.ok("Результат в консоли");
+    }
+    @GetMapping("/list-is-console-synchronized-threads")
+    public ResponseEntity<String> getListStudentsIsConsoleWithSynchronizedThreads() {
+        studentService.getListStudentsIsConsoleWithSynchronizedThreads();
+        return ResponseEntity.ok("Результат в консоли");
+    }
 }

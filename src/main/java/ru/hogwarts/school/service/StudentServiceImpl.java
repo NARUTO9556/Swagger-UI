@@ -8,7 +8,6 @@ import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +17,7 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private final StudentRepository studentRepository;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private Integer count = 0;
 
     public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -102,5 +102,41 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findAll().stream().
                 mapToDouble(Student::getAge).
                 average().orElse(Double.NaN);
+    }
+    @Override
+    public void getListStudentsIsConsoleWithThreads() {
+        logger.info("Был вызван метод getListStudentsIsConsoleWithThreads");
+        List<Student> studentList = studentRepository.findAll();
+        System.out.println(studentList.get(0).getName());
+        System.out.println(studentList.get(1).getName());
+        new Thread(() -> {
+            System.out.println(studentList.get(2).getName());
+            System.out.println(studentList.get(3).getName());
+        }).start();
+        new Thread(() -> {
+            System.out.println(studentList.get(4).getName());
+            System.out.println(studentList.get(5).getName());
+        }).start();
+    }
+
+    @Override
+    public void getListStudentsIsConsoleWithSynchronizedThreads() {
+        logger.info("Был вызван метод getListStudentsIsConsoleWithSynchronizedThreads");
+        List<Student> studentList = studentRepository.findAll();
+        printStudentName(studentList);
+        printStudentName(studentList);
+        new Thread(() -> {
+            printStudentName(studentList);
+            printStudentName(studentList);
+        }).start();
+        new Thread(() -> {
+            printStudentName(studentList);
+            printStudentName(studentList);
+        }).start();
+    }
+
+    private synchronized void printStudentName(List<Student> studentList) {
+        System.out.println(studentList.get(count).getName());
+        count++;
     }
 }
