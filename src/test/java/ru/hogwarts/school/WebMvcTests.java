@@ -16,7 +16,9 @@ import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
-import ru.hogwarts.school.service.*;
+import ru.hogwarts.school.service.impl.AvatarServiceImpl;
+import ru.hogwarts.school.service.impl.FacultyServiceImpl;
+import ru.hogwarts.school.service.impl.StudentServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

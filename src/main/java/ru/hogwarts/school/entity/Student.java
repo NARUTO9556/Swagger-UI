@@ -2,15 +2,43 @@ package ru.hogwarts.school.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
-@Entity
+
+/**
+ *Student - сущность
+ * <br><i>содержит поля:</i>
+ * <br> - id<i> (id студента)</i>
+ * <br> - name<i> (имя студента)</i>
+ * <br> - age<i> (возраст студента)</i>
+ * <br> - faculty<i> (связь {@link Faculty} и {@link Student})</i>
+ * <br> - avatar<i> (связь {@link Avatar} и {@link Student})</i>
+ */
+
+@Entity(name = "student")
 public class Student {
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * имя студента
+     */
     private String name;
+    /**
+     * возраст студента
+     */
     private int age;
+    /**
+     * связь {@link Faculty} и {@link Student}
+     * <br><i> один факультет - много студентов</i>
+     */
     @ManyToOne
     private Faculty faculty;
+    /**
+     * связь {@link Avatar} и {@link Student}
+     * <br><i> один студент - один аватар</i>
+     */
     @OneToOne
     private Avatar avatar;
 

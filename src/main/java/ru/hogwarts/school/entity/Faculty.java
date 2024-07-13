@@ -3,13 +3,36 @@ package ru.hogwarts.school.entity;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
-@Entity
+
+/**
+ *Faculty - сцщность
+ * <br><i>содержит поля:</i>
+ * <br> - id<i> (id факультета)</i>
+ * <br> - name<i> (название факультета)</i>
+ * <br> - color<i> (цыет факультета)</i>
+ * <br> - studentLists<i> (связь {@link Faculty} и {@link Student})</i>
+ */
+
+@Entity(name = "faculty")
 public class Faculty {
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * имя факультета
+     */
     private String name;
+    /**
+     * цвет факультета
+     */
     private String color;
+    /**
+     * связь {@link Faculty} и {@link Student}
+     * <br><i> один факультет - много студентов</i>
+     */
     @OneToMany
     private List<Student> studentLists;
 

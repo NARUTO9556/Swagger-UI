@@ -6,17 +6,47 @@ import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 
-@Entity
+/**
+ *Avatar - сущность
+ * <br><i>содержит поля:</i>
+ * <br> - id<i> (id аватара)</i>
+ * <br> - filePath<i> (путь до файла)</i>
+ * <br> - fileSize<i> (размер файла)</i>
+ * <br> - mediaType<i> (тип файла)</i>
+ * <br> - data<i> (объем данных)</i>
+ * <br> - student<i> (связь {@link Student} и {@link Avatar})</i>
+ */
+
+@Entity(name = "avatar")
 public class Avatar {
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * путь до файла
+     */
     private String filePath;
+    /**
+     * размер файла
+     */
     private long fileSize;
+    /**
+     * тип файла
+     */
     private String mediaType;
+    /**
+     * объем данных
+     */
     @Lob
     @JsonIgnore
     private byte[] data;
+    /**
+     * связь {@link Student} и {@link Avatar}
+     * <br><i>один студент - один аватар</i>
+     */
     @OneToOne
     private Student student;
     public Avatar() {
